@@ -13,6 +13,7 @@ public class RegistraceForm {
     @NotBlank
     private String prijmeni;
     @NotNull
+
     private LocalDate datumNarozeni;
    @NotNull
     private String gender;

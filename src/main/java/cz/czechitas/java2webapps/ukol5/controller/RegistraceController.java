@@ -30,15 +30,21 @@ public class RegistraceController {
 
     @PostMapping("/")
     public Object formular(@Valid @ModelAttribute("formular") RegistraceForm formular, BindingResult bindingResult) {
+        Period period = formular.getDatumNarozeni().until(LocalDate.now());
+        int vek = period.getYears();
+        if (vek < 9 || vek > 15) {
+            bindingResult.rejectValue("datumNarozeni", "datumNarození.invalid","Nevhodný věk pro účast na letním táboře");
+        }
+
+
         if (bindingResult.hasErrors()) {
             return "formular";
         }
 
-        Period period = formular.getDatumNarozeni().until(LocalDate.now());
-        int vek = period.getYears();
-        if (vek < 9 || vek > 15) {
+
+        /*if (vek < 9 || vek > 15) {
             return new ModelAndView("/spatnyvek");
-        }
+        }*/
 
         return new ModelAndView("/potvrzeniregistrace")
                 .addObject("email", formular.getEmail());
